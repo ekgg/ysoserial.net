@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ysoserial_frmv2</RootNamespace>
     <AssemblyName>ysoserial_frmv2</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -62,6 +62,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net20\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -92,6 +93,7 @@
     <Compile Include="Generators\Generator.cs" />
     <Compile Include="Generators\GenericGenerator.cs" />
     <Compile Include="Generators\ObjectDataProviderGenerator.cs" />
+    <Compile Include="Generators\TextFormattingRunPropertiesGenerator.cs" />
     <Compile Include="Plugins\AltserializationPlugin.cs" />
     <Compile Include="Plugins\ApplicationTrustPlugin.cs" />
     <Compile Include="Plugins\ClipboardPlugin.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Plugins\ViewStatePlugin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextFormattingRunProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

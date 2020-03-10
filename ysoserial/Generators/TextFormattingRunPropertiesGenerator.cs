@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.Text.Formatting;
+//using Microsoft.VisualStudio.Text.Formatting;
 
 namespace ysoserial_frmv2.Generators
 {
